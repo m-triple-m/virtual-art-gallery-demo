@@ -12,7 +12,7 @@ function checkPress(cb) {
 	// Add your code here to perform any actions you want to take
   }
 
-  setInterval(checkPress, 100);
+//   setInterval(checkPress, 100);
   
 
 
@@ -34,13 +34,13 @@ window.addEventListener("gamepadconnected", (e) => {
   console.log("Number of buttons: " + gamepad.buttons.length);
   console.log("Number of axes: " + gamepad.axes.length);
 
-  console.log(e.gamepad);
+  console.log(e);
   gameObj = e.gamepad;
   // Add an event listener to detect when a button is pressed
-//   var gamepadWrapper = new GamepadWrapper(gamepad);
-//   gamepadWrapper.addEventListener("buttonpress", function (e) {
-//     console.log("Button pressed: " + e.detail.button);
-//   });
+  var gamepadWrapper = new GamepadWrapper(gamepad);
+  gamepadWrapper.addEventListener("buttonpress", function (e) {
+    console.log("Button pressed: " + e.detail.button);
+  });
 
   // Call the myFunction() every 50 milliseconds
 //   var intervalId = setInterval(e => checkPress(() => {console.log(gamepad.axes[1]);}), 50);
