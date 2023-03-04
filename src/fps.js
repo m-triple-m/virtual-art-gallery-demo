@@ -2,19 +2,21 @@
 const mat4 = require("gl-mat4");
 const vec3 = require("gl-vec3");
 const lock = require("pointer-lock");
-const {GamepadWrapper} = require('./utils')
 //const footstep = require('./footstep')();
-let gameObj;
+let padIndex = 0;
 function checkPress(cb) {
-	// This function will be called every 50 milliseconds
-	// console.log("Function called!");
-	console.log(gameObj.buttons[0]);
-	// Add your code here to perform any actions you want to take
-  }
+  let gPad = navigator.getGamepads()[0];
+  // console.log(gPad.buttons);
 
-//   setInterval(checkPress, 100);
-  
+  // lx ly rx ry
+  // lt - 6
+}
 
+//   setInterval(checkPress, 1000);
+
+// window.addEventListener('input', e => {
+// 	console.log(e.code);
+// })
 
 window.addEventListener("gamepadconnected", (e) => {
   // alert('Gamepad connected!')
@@ -26,35 +28,18 @@ window.addEventListener("gamepadconnected", (e) => {
     e.gamepad.axes.length
   );
   var gamepad = navigator.getGamepads()[e.gamepad.index];
-
+  console.log(e.gamepad.index);
+  padIndex = e.gamepad.index;
   // Print some information about the gamepad
   console.log("Gamepad connected:");
   console.log("ID: " + gamepad.id);
   console.log("Index: " + gamepad.index);
   console.log("Number of buttons: " + gamepad.buttons.length);
   console.log("Number of axes: " + gamepad.axes.length);
-
-  console.log(e);
-  gameObj = e.gamepad;
-  // Add an event listener to detect when a button is pressed
-  var gamepadWrapper = new GamepadWrapper(gamepad);
-  gamepadWrapper.addEventListener("buttonpress", function (e) {
-    console.log("Button pressed: " + e.detail.button);
-  });
-
-  // Call the myFunction() every 50 milliseconds
-//   var intervalId = setInterval(e => checkPress(() => {console.log(gamepad.axes[1]);}), 50);
-  window.addEventListener('gamepadbuttondown', (e) => {
-	console.log(e);
-  });
-
-  // // Add an event listener to detect when an axis is changed
-  // gamepad.addEventListener("axismove", function(e) {
-  //   console.log("Axis moved: " + e.axis + " Value: " + e.value);
-  // });
 });
 
 const mouseSensibility = 0.002;
+const gPadSensibility = 0.005;
 const touchSensibility = 0.008;
 const rotationFilter = 0.95;
 const limitAngle = Math.PI / 4;
@@ -142,6 +127,7 @@ module.exports = function ({ getGridSegments, getGridParts }, fovY) {
   let pointer = lock(document.body);
   pointer.on("attain", (movements) => {
     movements.on("data", (move) => {
+      // console.log("nice");
       orientCamera(move.dx, move.dy, mouseSensibility);
     });
   });
@@ -294,8 +280,41 @@ module.exports = function ({ getGridSegments, getGridParts }, fovY) {
     dir = [right - left, 0, down - up];
     e.preventDefault();
   };
+  const handleGamepadKey = (axes, buttons) => {
+    // if (e.defaultPrevented || e.ctrlKey || e.altKey || e.metaKey) return;
+    // keys[e.code] = e.type === "keydown";
+    run = buttons[6].pressed;
+    const left = axes[0] < -0.5 ? 1 : 0;
+    const right = axes[0] > 0.5 ? 1 : 0;
+    const up = axes[1] < -0.5 ? 1 : 0;
+    const down = axes[1] > 0.5 ? 1 : 0;
+    dir = [right - left, 0, down - up];
+    // console.log('ce');
+    // const left = keys["KeyA"] || keys["ArrowLeft"] ? 1 : 0;
+    // const right = keys["KeyD"] || keys["ArrowRight"] ? 1 : 0;
+    // const up = keys["KeyW"] || keys["ArrowUp"] ? 1 : 0;
+    // const down = keys["KeyS"] || keys["ArrowDown"] ? 1 : 0;
+    // dir = [right - left, 0, down - up];
+    // e.preventDefault();
+  };
+
+  const handleGamepadStick = (axes) => {
+    orientCamera(axes[2], axes[3], gPadSensibility);
+  };
+
   window.addEventListener("keydown", handleKey);
   window.addEventListener("keyup", handleKey);
+
+  setInterval(() => {
+    let gPad = navigator.getGamepads()[padIndex];
+	if(!gPad) return;
+    handleGamepadKey(gPad.axes, gPad.buttons);
+  }, 10);
+  setInterval(() => {
+    let gPad = navigator.getGamepads()[padIndex];
+	if(!gPad) return;
+    handleGamepadStick(gPad.axes);
+  }, 1);
 
   // First person scope
   var lastTime = 0;
