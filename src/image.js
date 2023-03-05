@@ -7,12 +7,34 @@ const text = require('./text');
 
 const imageList = [
 	{title: 'example 1', path: 'img1.jpg'},
-	{title: 'example 2', path: 'img2.jpg'},
 	{title: 'example 3', path: 'img3.jpg'},
 	{title: 'example 4', path: 'img4.jpg'},
 	{title: 'example 5', path: 'img5.jpg'},
 	{title: 'example 6', path: 'img6.jpg'},
 	{title: 'example 7', path: 'img7.jpg'},
+	{title: 'example 8', path: 'pic1.jpg'},
+	{title: 'example 9', path: 'pic2.jpg'},
+	{title: 'example 10', path: 'pic3.jpg'},
+	{title: 'example 11', path: 'pic4.jpg'},
+	{title: 'example 12', path: 'pic5.jpg'},
+	{title: 'example 13', path: 'pic6.jpg'},
+	{title: 'example 14', path: 'pic7.jpg'},
+	{title: 'example 15', path: 'pic8.jpg'},
+	{title: 'example 16', path: 'pic9.jpg'},
+	{title: 'example 17', path: 'pic10.jpg'},
+	{title: 'example 18', path: 'pic11.jpg'},
+	{title: 'example 19', path: 'pic12.jpg'},
+	{title: 'example 20', path: 'pic13.jpg'},
+	{title: 'example 21', path: 'pic14.jpg'},
+	{title: 'example 22', path: 'pic15.jpg'},
+	{title: 'example 23', path: 'pic16.jpg'},
+	{title: 'example 24', path: 'pic17.jpg'},
+	{title: 'example 25', path: 'pic18.jpg'},
+	{title: 'example 26', path: 'pic19.jpg'},
+	{title: 'example 27', path: 'pic20.jpg'},
+	{title: 'example 28', path: 'pic21.jpg'}
+
+
 ]
 
 
